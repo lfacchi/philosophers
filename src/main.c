@@ -1,3 +1,6 @@
+#include "philo.h"
+
+/*
 # philosophers
 
 IDEIAS E TAREFAS
@@ -15,3 +18,21 @@ a estrutura filosofo deve ter
 -tempo de criação 
 -tempo da ultima refeição
 -mutex gafos
+
+*/
+
+
+int main (int argc, char **argv)
+{
+    if (!argc > 6 || !argc < 5)
+    {
+        check_num(argv);
+        
+    }
+    else
+    {
+        write(2,"Error! wrong number of arguments", 32);
+        exit(2);
+    }
+
+}
