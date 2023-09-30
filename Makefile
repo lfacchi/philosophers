@@ -3,14 +3,14 @@
 
 NAME	= philo
 CC		= gcc
-CFLAGS	= -Wall -Wextra -Werror
+CFLAGS	=
 FT		= ./42_libft/libft.a
-SRCS	= main.c 
+SRCS	= main.c philo.c validation.c time.c actions.c
 OBJSDIR	= obj
 OBJS	= $(addprefix ${OBJSDIR}/, ${SRCS:%.c=%.o})
 
 all: ${NAME}
-	@clear
+
 	
 
 ${NAME}: ${OBJSDIR} ${OBJS}

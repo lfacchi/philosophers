@@ -1,3 +1,5 @@
+#include "philo.h"
+
 void	check_num(char **arr)
 {
 	int	i;
