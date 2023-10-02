@@ -23,6 +23,8 @@ typedef struct t_table {
     pthread_t big_brother;
     long long start_time;
     int n_philos;
+	int	big_wall_bbb;
+	pthread_mutex_t  big_wall_mutex;
     int t_die;
     int t_eat;
     int t_sleep;
@@ -67,6 +69,7 @@ void sleeping(t_table *table, int id);
 
 //finish.c
 void pay_bill(t_table *table);
+void do_dishes(t_table *table);
 
 
 #endif

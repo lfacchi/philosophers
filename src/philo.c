@@ -42,6 +42,8 @@ void start_dinner(t_table *table)
 	int i;
 	params = (t_parameter **)malloc(sizeof(t_parameter *) * table->n_philos);
 	i = -1;
+	pthread_mutex_init(&table->big_wall_mutex, NULL);
+	table->big_wall_bbb = 0;
 	while (++i < table->n_philos)
 	{
 		params[i] = (t_parameter *)malloc(sizeof(t_parameter));
@@ -58,12 +60,6 @@ void start_dinner(t_table *table)
 	pthread_create(&table->big_brother,
                    NULL, big_brother, params[0]);
 	// Aguardar filósofos terminarem
-    pthread_join(table->big_brother, NULL);
-    i = -1;
-	while (++i < table->n_philos)
-		pthread_join(table->philosophers[i].thrd, NULL);
-    free(params);
-    params = NULL;
 }
 
 void *philosopher(void *params)
@@ -77,14 +73,26 @@ void *philosopher(void *params)
 	philo = param->philo;
 	table = param->table;
 	id = philo->id;
+	if (table->big_wall_bbb)
+		return (NULL);
 	if (id % 2 == 0)
 		usleep(1000);
 	while (1)
 	{
+		if (table->big_wall_bbb)
+			return (NULL);
 		think(table, id);
+		if (table->big_wall_bbb)
+			return (NULL);
 		take_forks(table, id);
+		if (table->big_wall_bbb)
+			return (NULL);
 		eat(table, id);
+		if (table->big_wall_bbb)
+			return (NULL);
         sleeping(table,id);
+		if (table->big_wall_bbb)
+			return (NULL);
 		printf("n_meals:%d - philo:%d\n", table->philosophers[id].n_meals, id);
 	}
 }
