@@ -2,19 +2,17 @@
 .PHONY	= all clean fclean re
 
 NAME	= philo
-CC		= gcc
+CC		= clang
 CFLAGS	=
 FT		= ./42_libft/libft.a
-SRCS	= main.c philo.c validation.c time.c actions.c
+SRCS	= main.c philo.c validation.c time.c actions.c big_brother.c
 OBJSDIR	= obj
 OBJS	= $(addprefix ${OBJSDIR}/, ${SRCS:%.c=%.o})
 
 all: ${NAME}
 
-	
-
 ${NAME}: ${OBJSDIR} ${OBJS}
-	${CC} ${CFLAGS} ${OBJS} ${FT} -o $@
+	${CC} ${CFLAGS} ${OBJS} ${FT} -o $@ -pthread
 	
 
 ${OBJSDIR}:
@@ -23,7 +21,7 @@ ${OBJSDIR}:
 ${OBJS}: | ${FT}
 
 ${OBJSDIR}/%.o: src/%.c src/philo.h
-	${CC} ${CFLAGS} -c $< -o $@
+	${CC} ${CFLAGS} -c $< -o $@ -pthread
 
 ${FT}: 
 	@${MAKE} -C 42_libft
@@ -32,6 +30,6 @@ clean:
 	rm -rf ${OBJSDIR}
 
 fclean: clean
-	rm -rf ${NAME} philo
+	rm -rf ${NAME}
 
 re: fclean all

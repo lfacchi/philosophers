@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.26)
+cmake_minimum_required(VERSION 3.22)
 project(philosophers C)
 
 set(CMAKE_C_STANDARD 11)
@@ -47,4 +47,7 @@ add_executable(philosophers
         src/philo.h
         src/validation.c
         src/philo.c
-        src/time.c)
+        src/actions.c
+        src/time.c
+        src/big_brother.c
+)
