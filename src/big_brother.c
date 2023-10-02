@@ -18,6 +18,8 @@ void *big_brother(void *params)
 	while (1)
 	{
 		i = -1;
+		if (table->big_wall_bbb)
+			return (NULL);
 		while (++i < table->n_philos)
 		{
 			hungry_time = time_on_app(table) - table->philosophers[i].last_meal;
@@ -25,13 +27,15 @@ void *big_brother(void *params)
             if (is_finished == 1)
             {
                 pay_bill(table);
-//                return NULL;
+				if (table->big_wall_bbb)
+					return (NULL);
             }
 			if (hungry_time > table->t_die)
 			{
-                printf("%d has died\n", i);
+                printf("%llu %d has died\n", time_on_app(table), i);
                 pay_bill(table);
-//                return NULL;
+				if (table->big_wall_bbb)
+					return (NULL);
 			}
 		}
 		usleep(1000);
