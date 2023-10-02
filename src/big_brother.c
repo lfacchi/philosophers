@@ -13,45 +13,45 @@ void *big_brother(void *params)
     int is_finished;
 	int i;
 
+    hungry_time = 0;
+    is_finished = 0;
 	while (1)
 	{
-		i = 0;
-		while (i < table->n_philos)
+		i = -1;
+		while (++i < table->n_philos)
 		{
-			// Verifique se o filósofo comeu a mais tempo que o tempo de morte
-
 			hungry_time = time_on_app(table) - table->philosophers[i].last_meal;
 			is_finished = check_meals(table);
             if (is_finished == 1)
-                exit(1);
+            {
+                pay_bill(table);
+//                return NULL;
+            }
 			if (hungry_time > table->t_die)
 			{
-            printf("%d has died\n", i);
-
-				// Libere o mutex da tabela antes de sair
-				exit(1);
+                printf("%d has died\n", i);
+                pay_bill(table);
+//                return NULL;
 			}
-
-			i++;
 		}
-
-		usleep(1000); // 1 milissegundo (1000 microssegundos)
-	}
+		usleep(1000);
+    }
 }
 
 int check_meals(t_table *table)
 {
 	int i;
 	int finished;
+
+    finished = 0;
 	if (table->max_meals == 0)
 		return 0;
 	else
 	{
-		finished = 0;
 		i = -1;
 		while (++i < table->n_philos)
 		{
-			if (table->philosophers[i].n_meals == table->max_meals)
+			if (table->philosophers[i].finished == 1)
 				finished++;
 			if (finished == table->n_philos)
 				return (1);

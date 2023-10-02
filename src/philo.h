@@ -11,13 +11,15 @@
 #define MAX_PHILOSOPHERS 100
 
 typedef struct t_philo {
-    int id;
-    pthread_t thrd;
-    long long last_meal;
-    int n_meals;
+    int         id;
+    pthread_t   thrd;
+    long long   last_meal;
+    int         n_meals;
+    int         finished;
 } t_philo;
 
 typedef struct t_table {
+    void *parameter;
     pthread_t big_brother;
     long long start_time;
     int n_philos;
@@ -25,9 +27,8 @@ typedef struct t_table {
     int t_eat;
     int t_sleep;
     int max_meals;
+    int stop;
     pthread_mutex_t *forks;
-    pthread_mutex_t *table_mutex;
-    pthread_mutex_t *philo_mutex;
     struct t_philo *philosophers;
 } t_table;
 
@@ -64,6 +65,8 @@ void eat(t_table *table, int id);
 
 void sleeping(t_table *table, int id);
 
-int has_both_forks(t_table *table, int id);
+//finish.c
+void pay_bill(t_table *table);
+
 
 #endif

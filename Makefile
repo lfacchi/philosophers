@@ -3,9 +3,9 @@
 
 NAME	= philo
 CC		= clang
-CFLAGS	=
+CFLAGS	= -g3
 FT		= ./42_libft/libft.a
-SRCS	= main.c philo.c validation.c time.c actions.c big_brother.c
+SRCS	= main.c philo.c validation.c time.c actions.c big_brother.c finish.c
 OBJSDIR	= obj
 OBJS	= $(addprefix ${OBJSDIR}/, ${SRCS:%.c=%.o})
 

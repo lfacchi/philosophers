@@ -8,7 +8,6 @@ void think(t_table *table, int id)
 	printf("%lld ms %d is thinking\n", time, id);
 }
 
-// Função para o filósofo pegar os garfos
 void take_forks(t_table *table, int id)
 {
 	long long time;
@@ -23,7 +22,6 @@ void take_forks(t_table *table, int id)
 		left_fork = id;
 		right_fork = id + 1;
 	}
-
 	pthread_mutex_lock(&table->forks[left_fork]);
 	pthread_mutex_lock(&table->forks[right_fork]);
 	time = time_on_app(table);
@@ -38,26 +36,22 @@ void eat(t_table *table, int id)
 
 	time = time_on_app(table);
 	printf("%lld ms %d is eating\n", time, id);
-//	pthread_mutex_lock(&table->philo_mutex[id]);
 	usleep(table->t_eat * 1000); // Tempo para comer em milissegundos
-
 	table->philosophers[id].last_meal = time_on_app(table);
 	table->philosophers[id].n_meals++;
-//	pthread_mutex_unlock(&table->philo_mutex[id]);
-	// Desbloqueia os mutexes dos garfos após o término de comer
+    if (table->philosophers[id].n_meals == table->max_meals)
+        table->philosophers[id].finished++;
 	int left_fork = id;
 	int right_fork = (id + 1) % table->n_philos;
 	pthread_mutex_unlock(&table->forks[left_fork]);
 	pthread_mutex_unlock(&table->forks[right_fork]);
 }
 
-// Função para simular o sono do filósofo
 void sleeping(t_table *table, int id)
 {
 	long long time;
 
 	time = time_on_app(table);
 	printf("%lld ms %d is sleeping\n", time, id);
-	usleep(table->t_sleep * 1000); // Tempo para dormir em milissegundos
+	usleep(table->t_sleep * 1000);
 }
-
